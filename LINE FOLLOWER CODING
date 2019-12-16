@@ -1,0 +1,234 @@
+#include "AT89x52.h"
+#include "stdio.h"
+void delay(int time)
+{
+ int i,j;
+for(i=0;i<100;i++)
+ {
+ for(j=0;j<time;j++);
+}}
+void forward()	   // Function to Move the Robot Forward
+{
+ P0_0=1;		   //M1 Forward bit high
+ P0_1=0;
+ P0_2=1;
+ P0_3=0;
+ P0_4=1;
+ P0_5=0;
+ P0_6=1;
+ P0_7=0;		   //M1 Backward bit low
+ }
+ 
+void rreverse()	   // Function to Move the Robot Forward
+{
+ P0_0=0;		   //M1 Forward bit high
+ P0_1=0;
+ P0_2=0;
+ P0_3=0;
+ P0_4=0;
+ P0_5=1;
+ P0_6=0;
+ P0_7=1;		   //M1 Backward bit low
+ } 
+void lreverse()	   // Function to Move the Robot Forward
+{
+ P0_0=0;		   //M1 Forward bit high
+ P0_1=1;
+ P0_2=0;
+ P0_3=1;
+ P0_4=0;
+ P0_5=0;
+ P0_6=0;
+ P0_7=0;		   //M1 Backward bit low
+ }
+void reverse()	   // Function to Move the Robot Forward
+{
+ P0_0=0;		   //M1 Forward bit high
+ P0_1=1;
+ P0_2=0;
+ P0_3=1;
+ P0_4=0;
+ P0_5=1;
+ P0_6=0;
+ P0_7=1;		   //M1 Backward bit low
+ }
+ void right()	   // Function to Move the Robot Forward
+{
+ P0_0=0;		   //M1 Forward bit high
+ P0_1=0;
+ P0_2=0;
+ P0_3=0;
+ P0_4=1;
+ P0_5=0;
+ P0_6=1;
+ P0_7=0;		   //M1 Backward bit low
+ }
+ void left()	   // Function to Move the Robot Forward
+{
+P0_0=1;		   //M1 Forward bit high
+ P0_1=0;
+ P0_2=1;
+ P0_3=0;
+ P0_4=0;
+ P0_5=0;
+ P0_6=0;
+ P0_7=0;		   //M1 Backward bit low
+ }
+ void stop()	   // Function to Move the Robot Forward
+{
+ P0_0=0;		   //M1 Forward bit high
+ P0_1=0;
+ P0_2=0;
+ P0_3=0;
+ P0_4=0;
+ P0_5=0;
+ P0_6=0;
+ P0_7=0;		   //M1 Backward bit low
+ }
+void linefollower()
+ {
+  if ((P1_2==1)&&(P1_3==1))
+  {
+   forward();
+  }
+   if ((P1_2==0)&&(P1_3==1))
+  {
+   right();
+  }
+  if ((P1_2==1)&&(P1_3==0))
+  {
+   	left();
+  }
+    if ((P1_2==0)&&(P1_3==0))
+  {
+   stop();
+  }
+ if ((P1_0==0)&&(P1_1==0))
+  {
+  forward();
+delay(1000);
+lreverse();
+delay(700);
+reverse();
+delay(500);
+ do
+{	
+   right();
+ }
+ while(P1_5==1);
+ do
+ {
+  left();
+  }
+  while(P1_2==1);
+}
+if ((P1_4==0)&&(P1_5==0))
+  {
+  forward();
+delay(1000);
+rreverse();
+delay(700);
+  reverse();
+delay(500);
+do
+{	
+   left();
+}
+while(P1_0==1) ;
+do
+{
+right();
+   }
+ while(P1_3==1);
+ }}	
+  void main()
+{
+ P0=0x00;
+ P0=0xFF;
+ stop();
+ delay(10000);
+  while(1)
+{
+  if((P1_6==1)&&(P1_7==0)&&(P3_5==0))
+    {
+right();
+delay(1000);
+do
+{
+right();
+}
+while((P1_0==1)||(P1_1==1)||(P1_2==1)||(P1_3==1)||(P1_4==1)||(P1_5==1));
+stop();
+P3_6==1;
+delay(500);
+P3_6==0;
+}
+if((P1_6==0)&&(P1_7==1)&&(P3_5==0))
+    {
+   rreverse();
+   delay(1000);
+do
+     {
+  rreverse();
+  }
+while((P1_0==1)||(P1_1==1)||(P1_2==1)||(P1_3==1)||(P1_4==1)||(P1_5==1));
+stop();
+P3_6==1;
+delay(500);
+P3_6==0;
+   }
+     if((P1_6==1)&&(P1_7==0)&&(P3_5==1))
+ {
+ right();
+delay(3000);
+ do
+{
+forward();
+}
+while((P1_0==1)&&(P1_1==1)&&(P1_2==1)&&(P1_3==1)&&(P1_4==1)&&(P1_5==1));
+do
+{
+linefollower();
+}
+while((P1_0==1)||(P1_1==1)||(P1_2==1)||(P1_3==1)||(P1_4==1)||(P1_5==1));
+  P3_6==1;
+delay(500);
+P3_6==0;
+ }
+if((P1_6==0)&&(P1_7==1)&&(P3_5==1))
+ {
+   do
+{
+forward();
+}
+while((P1_0==1)&&(P1_1==1)&&(P1_2==1)&&(P1_3==1)&&(P1_4==1)&&(P1_5==1));
+do
+{
+linefollower();
+}
+while((P1_0==1)||(P1_1==1)||(P1_2==1)||(P1_3==1)||(P1_4==1)||(P1_5==1));
+ P3_6==1;
+delay(500);
+P3_6==0;
+ }
+if((P1_6==1)&&(P1_7==1)&&(P3_5==1))
+ {
+ left();
+delay(3000);
+ do
+{
+forward();
+}
+while((P1_0==1)&&(P1_1==1)&&(P1_2==1)&&(P1_3==1)&&(P1_4==1)&&(P1_5==1));
+do
+{
+linefollower();
+}
+while((P1_0==1)||(P1_1==1)||(P1_2==1)||(P1_3==1)||(P1_4==1)||(P1_5==1));
+ P3_6==1;
+delay(500);
+P3_6==0;}
+ else
+   {
+    stop();
+   }}}
